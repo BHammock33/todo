@@ -1,7 +1,7 @@
 import React from "react";
 
 function Header() {
-  doSomething();
+//   doSomething();
   return (
     <div>
       <h3>Todo App</h3>
@@ -9,8 +9,8 @@ function Header() {
   );
 }
 
-function doSomething() {
-  console.log("I'm doing something");
-}
+// function doSomething() {
+//   console.log("I'm doing something");
+// }
 
 export default Header;
