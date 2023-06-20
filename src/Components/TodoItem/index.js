@@ -2,7 +2,8 @@ import React from "react";
 
 const TodoItem = (props) => {
   //const todoItemData = props.todoItemData;
-  const { todoItemData, emitTodoItemDataUpdate } = props;
+  const { todoItemData, emitTodoItemDataUpdate, emitTodoItemDataDelete } =
+    props;
 
   return (
     <div>
@@ -13,17 +14,40 @@ const TodoItem = (props) => {
             todoItemData.isDone = !todoItemData.isDone;
             emitTodoItemDataUpdate(todoItemData);
           }}
-          value={todoItemData}
+          checked={todoItemData.isDone}
         />
-        <label
-          style={
-            //                        yes                           no
-            todoItemData.isDone ? { textDecoration: "line-through" } : {}
-            //same as todoItem.isDone === true ?
-          }
+
+        {todoItemData.isDone ? (
+          <label
+            style={
+              //                        true                           false
+              todoItemData.isDone ? { textDecoration: "line-through" } : {}
+              //same as todoItem.isDone === true ?
+            }
+          >
+            {todoItemData.itemName}
+          </label>
+        ) : (
+          <>
+            <input
+              type="text"
+              value={todoItemData.itemName}
+              placeholder="New Todo Item..."
+              onChange={(e) => {
+                todoItemData.itemName = e.target.value;
+                emitTodoItemDataUpdate(todoItemData);
+              }}
+            />
+          </>
+        )}
+        <span
+          style={{ marginLeft: "1em", cursor: "pointer" }}
+          onClick={(e) => {
+            emitTodoItemDataDelete(todoItemData);
+          }}
         >
-          {todoItemData.itemName}
-        </label>
+          ➖
+        </span>
       </>
     </div>
   );

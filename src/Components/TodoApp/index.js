@@ -4,6 +4,7 @@ import Footer from "../Footer";
 import TodoItem from "../TodoItem";
 
 const TodoApp = () => {
+  const [todoId, setTodoId] = useState(4);
   const [todoItems, setTodoItems] = useState([
     {
       id: 1,
@@ -18,7 +19,7 @@ const TodoApp = () => {
     {
       id: 3,
       itemName: "go to work",
-      isDone: false,
+      isDone: true,
     },
   ]);
 
@@ -30,19 +31,50 @@ const TodoApp = () => {
     todoItemsCopy[index] = data;
     setTodoItems(todoItemsCopy);
   }
-  //inside an object it expects keys and values, string key : value
+
+  function handleTodoItemDataDelete(data) {
+    let todoItemsCopy = [...todoItems];
+    todoItemsCopy = todoItemsCopy.filter((todoItem) => todoItem.id !== data.id);
+    setTodoItems(todoItemsCopy);
+  }
+  function handleTodoItemDataAdd() {
+    const todoItemsCopy = [...todoItems];
+    todoItemsCopy.push({
+      id: todoId,
+      itemName: "",
+      isDone: false,
+    });
+    setTodoId(todoId + 1);
+    setTodoItems(todoItemsCopy);
+  }
 
   return (
     <div>
       <Header />
       <div style={{ marginBottom: "3rem" }}>
-        <h1>To do List</h1>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <h1 style={{ alignItems: "center" }}>To do List</h1>
+          <div
+            style={{
+              fontSize: "16px",
+              alignItems: "center",
+              marginLeft: "1.5em",
+              cursor: "pointer",
+            }}
+            onClick={(e) => {
+              handleTodoItemDataAdd();
+            }}
+          >
+            ➕
+          </div>
+        </div>
         {todoItems.map((data) => {
           return (
             <TodoItem
               todoItemData={data}
               key={data.id}
               emitTodoItemDataUpdate={handleTodoItemDataUpdate}
+              emitTodoItemDataDelete={handleTodoItemDataDelete}
             />
           );
         })}
@@ -105,3 +137,4 @@ export default TodoApp;
 //{} inside return allows for JS expressions
 //parent to child key and data
 //child to parent modify and then emit
+//inside an object it expects keys and values, string key : value
