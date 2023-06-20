@@ -6,6 +6,6 @@ const Footer = () => {
            &copy; Copyright {new Date().getFullYear()} 
         </div>
     );
-};
+}
 
 export default Footer;

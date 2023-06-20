@@ -1,12 +1,10 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
-import TodoApp, { addItem } from "./Components/TodoApp/todoApp";
+import TodoApp from "./Components/TodoApp/todoApp";
 import Dashboard from "./Components/Dashboard/dashboard";
 import PageNotFound from "./Components/PageNotFound/pageNotFound";
 
 function App() {
-  addItem();
-
   return (
     <Router>
       <Switch>
@@ -14,7 +12,7 @@ function App() {
           <Dashboard />
         </Route>
         <Route exact path="/">
-          <TodoApp />;
+          <TodoApp />
         </Route>
         <Route path="/">
           <PageNotFound />
