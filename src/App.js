@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
-import TodoApp from "./Components/TodoApp/todoApp";
-import Dashboard from "./Components/Dashboard/dashboard";
-import PageNotFound from "./Components/PageNotFound/pageNotFound";
+import Dashboard from "./Components/Dashboard";
+import PageNotFound from "./Components/PageNotFound";
+import TodoApp from "./Components/TodoApp";
 
 function App() {
   return (

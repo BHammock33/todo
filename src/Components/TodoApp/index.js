@@ -1,10 +1,10 @@
-import React from "react";
-import Header from "../Header/header";
-import Footer from "../Footer/footer";
+import React, { useState } from "react";
+import Header from "../Header";
+import Footer from "../Footer";
+import TodoItem from "../TodoItem";
 
 const TodoApp = () => {
-  //inside an object it expects keys and values, string key : value
-  const todoItems = [
+  const [todoItems, setTodoItems] = useState([
     {
       id: 1,
       itemName: "get the milk!",
@@ -18,30 +18,32 @@ const TodoApp = () => {
     {
       id: 3,
       itemName: "go to work",
-      isDone: true,
+      isDone: false,
     },
-  ];
+  ]);
+
+  function handleTodoItemDataUpdate(data) {
+    const todoItemsCopy = [...todoItems];
+    const index = todoItemsCopy.findIndex(
+      (todoItem) => todoItem.id === data.id
+    );
+    todoItemsCopy[index] = data;
+    setTodoItems(todoItemsCopy);
+  }
+  //inside an object it expects keys and values, string key : value
 
   return (
     <div>
       <Header />
       <div style={{ marginBottom: "3rem" }}>
         <h1>To do List</h1>
-        {todoItems.map((todoItem) => {
+        {todoItems.map((data) => {
           return (
-            <div key={todoItem.id}>
-              {
-                <label
-                  style={
-                    //                        yes                           no
-                    todoItem.isDone ? { textDecoration: "line-through" } : {}
-                    //same as todoItem.isDone === true ?
-                  }
-                >
-                  {todoItem.itemName}
-                </label>
-              }
-            </div>
+            <TodoItem
+              todoItemData={data}
+              key={data.id}
+              emitTodoItemDataUpdate={handleTodoItemDataUpdate}
+            />
           );
         })}
       </div>
@@ -101,3 +103,5 @@ export default TodoApp;
           <h3>My name is {name}</h3>
           <h3>And I am {age} years old</h3> */
 //{} inside return allows for JS expressions
+//parent to child key and data
+//child to parent modify and then emit
