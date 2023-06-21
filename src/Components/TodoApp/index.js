@@ -1,27 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../Header";
 import Footer from "../Footer";
 import TodoItem from "../TodoItem";
 
 const TodoApp = () => {
-  const [todoId, setTodoId] = useState(4);
-  const [todoItems, setTodoItems] = useState([
-    {
-      id: 1,
-      itemName: "get the milk!",
-      isDone: false,
-    },
-    {
-      id: 2,
-      itemName: "Pick up dry cleaning",
-      isDone: false,
-    },
-    {
-      id: 3,
-      itemName: "go to work",
-      isDone: true,
-    },
-  ]);
+  // const [todoId, setTodoId] = useState(4);
+  const [todoItems, setTodoItems] = useState([]);
+  useEffect(() => {
+    fetch("/api/todoItems")
+      .then((response) => response.json())
+      .then((data) => {
+        setTodoItems(data);
+      });
+  }, []);
 
   function handleTodoItemDataUpdate(data) {
     const todoItemsCopy = [...todoItems];
@@ -38,14 +29,19 @@ const TodoApp = () => {
     setTodoItems(todoItemsCopy);
   }
   function handleTodoItemDataAdd() {
-    const todoItemsCopy = [...todoItems];
-    todoItemsCopy.push({
-      id: todoId,
-      itemName: "",
+    const data = {
+      itemName: "Get Milk",
       isDone: false,
-    });
-    setTodoId(todoId + 1);
-    setTodoItems(todoItemsCopy);
+    };
+    fetch("/api/todoItems", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((todoItems) => setTodoItems(todoItems));
   }
 
   return (
