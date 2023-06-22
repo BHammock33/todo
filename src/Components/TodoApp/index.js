@@ -14,19 +14,40 @@ const TodoApp = () => {
       });
   }, []);
 
-  function handleTodoItemDataUpdate(data) {
-    const todoItemsCopy = [...todoItems];
-    const index = todoItemsCopy.findIndex(
-      (todoItem) => todoItem.id === data.id
-    );
-    todoItemsCopy[index] = data;
-    setTodoItems(todoItemsCopy);
+  function handleTodoItemDataUpdate(data, shouldSave) {
+    if (!shouldSave) {
+      const todoItemsCopy = [...todoItems];
+      const index = todoItemsCopy.findIndex(
+        (todoItem) => todoItem.id === data.id
+      );
+      todoItemsCopy[index] = data;
+      setTodoItems(todoItemsCopy);
+    } else {
+      fetch("/api/todoItems", {
+        method: "PUT",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+        .then((response) => response.json())
+        .then((todoItems) => setTodoItems(todoItems));
+    }
   }
 
   function handleTodoItemDataDelete(data) {
-    let todoItemsCopy = [...todoItems];
-    todoItemsCopy = todoItemsCopy.filter((todoItem) => todoItem.id !== data.id);
-    setTodoItems(todoItemsCopy);
+    // let todoItemsCopy = [...todoItems];
+    // todoItemsCopy = todoItemsCopy.filter((todoItem) => todoItem.id !== data.id);
+    // setTodoItems(todoItemsCopy);
+    fetch("/api/todoItems", {
+      method: "DELETE",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((todoItems) => setTodoItems(todoItems));
   }
   function handleTodoItemDataAdd() {
     const data = {

@@ -35,7 +35,11 @@ const TodoItem = (props) => {
               placeholder="New Todo Item..."
               onChange={(e) => {
                 todoItemData.itemName = e.target.value;
-                emitTodoItemDataUpdate(todoItemData);
+                emitTodoItemDataUpdate(todoItemData, false);
+              }}
+              onBlur={(e) => {
+                todoItemData.itemName = e.target.value;
+                emitTodoItemDataUpdate(todoItemData, true);
               }}
             />
           </>
