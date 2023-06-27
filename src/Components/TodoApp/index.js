@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import Header from "../Header";
 import Footer from "../Footer";
 import TodoItem from "../TodoItem";
+import { handleTodoItemDataAdd } from "../../Services/todoItemService";
 
 const TodoApp = () => {
-  // const [todoId, setTodoId] = useState(4);
   const [todoItems, setTodoItems] = useState([]);
   useEffect(() => {
     fetch("/api/todoItems")
@@ -13,36 +13,6 @@ const TodoApp = () => {
         setTodoItems(data);
       });
   }, []);
-
-  function handleTodoItemDataUpdate(data) {
-    const todoItemsCopy = [...todoItems];
-    const index = todoItemsCopy.findIndex(
-      (todoItem) => todoItem.id === data.id
-    );
-    todoItemsCopy[index] = data;
-    setTodoItems(todoItemsCopy);
-  }
-
-  function handleTodoItemDataDelete(data) {
-    let todoItemsCopy = [...todoItems];
-    todoItemsCopy = todoItemsCopy.filter((todoItem) => todoItem.id !== data.id);
-    setTodoItems(todoItemsCopy);
-  }
-  function handleTodoItemDataAdd() {
-    const data = {
-      itemName: "Get Milk",
-      isDone: false,
-    };
-    fetch("/api/todoItems", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => response.json())
-      .then((todoItems) => setTodoItems(todoItems));
-  }
 
   return (
     <div>
@@ -57,8 +27,8 @@ const TodoApp = () => {
               marginLeft: "1.5em",
               cursor: "pointer",
             }}
-            onClick={(e) => {
-              handleTodoItemDataAdd();
+            onClick={() => {
+              handleTodoItemDataAdd(setTodoItems);
             }}
           >
             ➕
@@ -69,8 +39,8 @@ const TodoApp = () => {
             <TodoItem
               todoItemData={data}
               key={data.id}
-              emitTodoItemDataUpdate={handleTodoItemDataUpdate}
-              emitTodoItemDataDelete={handleTodoItemDataDelete}
+              todoItems={todoItems}
+              setTodoItems={setTodoItems}
             />
           );
         })}
