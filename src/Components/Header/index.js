@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 function Header() {
-  doSomething();
   return (
     <div
       style={{
@@ -17,10 +16,6 @@ function Header() {
       </div>
     </div>
   );
-}
-
-function doSomething() {
-  console.log("I'm doing something");
 }
 
 export default Header;
